@@ -1,3 +1,5 @@
+#pragma once
+
 #include <refbase.h>
 #include <iremote_broker.h>
 

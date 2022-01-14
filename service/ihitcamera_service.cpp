@@ -1,1 +1,0 @@
-#include "ihitcamera_service.h"
