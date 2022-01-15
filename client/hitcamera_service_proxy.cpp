@@ -1,12 +1,12 @@
 #include "hitcamera_service_proxy.h"
 
-namespace OHOS {
+namespace OHOS::HITCamera {
 
     HITCameraServiceProxy::HITCameraServiceProxy(const sptr<IRemoteObject>& impl)
             : IRemoteProxy<IHITCameraService>(impl) {}
 
-    int32_t HITCameraServiceProxy::Capture(PictureHandle& handle) {
+    sptr<PictureHandle> HITCameraServiceProxy::Capture() {
         // TODO
-        return 0;
+        return nullptr;
     }
 }

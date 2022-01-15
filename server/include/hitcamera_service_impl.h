@@ -4,7 +4,7 @@
 #include <system_ability.h>
 #include "hitcamera_service_stub.h"
 
-namespace OHOS {
+namespace OHOS::HITCamera {
 
     class HITCameraService : public SystemAbility, public HITCameraServiceStub {
         DECLARE_SYSTEM_ABILITY(HITCameraService);
@@ -14,6 +14,6 @@ namespace OHOS {
 
         explicit HITCameraService(int32_t systemAbilityId, bool runOnCreate = true);
 
-        int32_t Capture(PictureHandle& handle) override;
+        sptr<PictureHandle> Capture() override;
     };
 }

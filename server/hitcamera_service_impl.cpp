@@ -1,14 +1,12 @@
+#include "take_picture.h"
 #include "hitcamera_service_impl.h"
 
-namespace OHOS {
+namespace OHOS::HITCamera {
 
     HITCameraService::HITCameraService(int32_t systemAbilityId, bool runOnCreate)
             : SystemAbility(systemAbilityId, runOnCreate) {}
 
-    int32_t HITCameraService::Capture(PictureHandle& handle) {
-        // TODO
-        return 0;
+    sptr<PictureHandle> HITCameraService::Capture() {
+        return TakeOnePicture();
     }
-
-
 }

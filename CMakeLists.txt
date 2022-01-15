@@ -17,4 +17,4 @@ add_library(HITCamera
         server/hitcamera_service_stub.cpp
         server/hitcamera_service_impl.cpp
         client/hitcamera_service_proxy.cpp
-        )
+        server/take_picture.cpp server/include/take_picture.h base/hitbase.h)

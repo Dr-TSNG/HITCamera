@@ -3,7 +3,7 @@
 #include <iremote_stub.h>
 #include "ihitcamera_service.h"
 
-namespace OHOS {
+namespace OHOS::HITCamera {
 
     class HITCameraServiceStub : public IRemoteStub<IHITCameraService> {
     public:

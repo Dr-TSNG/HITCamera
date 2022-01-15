@@ -2,16 +2,12 @@
 
 #include <refbase.h>
 #include <iremote_broker.h>
+#include "hitbase.h"
 
-namespace OHOS {
-
-    struct PictureHandle {
-        size_t size;
-        sptr<uint8_t[]> content;
-    };
+namespace OHOS::HITCamera {
 
     class IHITCameraService : public IRemoteBroker {
     public:
-        virtual int32_t Capture(PictureHandle& handle) = 0;
+        virtual sptr<PictureHandle> Capture() = 0;
     };
 }
