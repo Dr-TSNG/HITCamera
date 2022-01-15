@@ -6,7 +6,21 @@ namespace OHOS::HITCamera {
             : IRemoteProxy<IHITCameraService>(impl) {}
 
     int HITCameraServiceProxy::Capture(sptr<PictureHandle>& handle) {
-        // TODO
+        MessageParcel data;
+        MessageParcel reply;
+        MessageOption option;
+
+        int error = Remote()->SendRequest(CAPTURE, data, reply, option);
+        if (error != ERR_NONE) {
+            LOGE("HITCameraServiceProxy Capture failed, error: %d", error);
+            handle = nullptr;
+            return error;
+        }
+
+        handle = new PictureHandle;
+        handle->size = reply.ReadUint64();
+        handle->content = reply.ReadBuffer(handle->size);
+
         return NO_ERROR;
     }
 }
