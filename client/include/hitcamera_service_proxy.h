@@ -9,6 +9,6 @@ namespace OHOS::HITCamera {
     public:
         explicit HITCameraServiceProxy(const sptr<IRemoteObject> &impl);
 
-        sptr<PictureHandle> Capture() override;
+        int Capture(sptr<PictureHandle>& handle) override;
     };
 }

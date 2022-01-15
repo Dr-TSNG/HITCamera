@@ -14,6 +14,6 @@ namespace OHOS::HITCamera {
 
         explicit HITCameraService(int32_t systemAbilityId, bool runOnCreate = true);
 
-        sptr<PictureHandle> Capture() override;
+        int Capture(sptr<PictureHandle>& handle) override;
     };
 }

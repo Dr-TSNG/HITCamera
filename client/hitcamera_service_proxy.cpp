@@ -5,8 +5,8 @@ namespace OHOS::HITCamera {
     HITCameraServiceProxy::HITCameraServiceProxy(const sptr<IRemoteObject>& impl)
             : IRemoteProxy<IHITCameraService>(impl) {}
 
-    sptr<PictureHandle> HITCameraServiceProxy::Capture() {
+    int HITCameraServiceProxy::Capture(sptr<PictureHandle>& handle) {
         // TODO
-        return nullptr;
+        return NO_ERROR;
     }
 }

@@ -6,7 +6,8 @@ namespace OHOS::HITCamera {
     HITCameraService::HITCameraService(int32_t systemAbilityId, bool runOnCreate)
             : SystemAbility(systemAbilityId, runOnCreate) {}
 
-    sptr<PictureHandle> HITCameraService::Capture() {
-        return TakeOnePicture();
+    int HITCameraService::Capture(sptr<PictureHandle>& handle) {
+        handle = TakeOnePicture();
+        return NO_ERROR;
     }
 }
