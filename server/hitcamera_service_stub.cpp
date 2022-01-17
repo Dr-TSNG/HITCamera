@@ -6,7 +6,7 @@ namespace OHOS::HITCamera {
                                                     OHOS::MessageOption& option) {
         int errCode = ERR_NONE;
         switch (code) {
-            case CAPTURE:
+            case ACTION_CAPTURE:
                 errCode = HITCameraServiceStub::HandleCapture(reply);
                 break;
             default:
@@ -16,18 +16,21 @@ namespace OHOS::HITCamera {
         return errCode;
     }
 
-    int HITCameraServiceStub::HandleCapture(MessageParcel& reply) {
-        sptr<PictureHandle> handle;
-        int errCode = HITCameraServiceStub::Capture(handle);
-        if (errCode != ERR_NONE) return errCode;
-
-        if (!reply.WriteUint64(handle->size)) {
-            LOGE("%s", "HITCameraServiceStub HandleCapture failed to write size");
-            return IPC_STUB_WRITE_PARCEL_ERR;
+    int HITCameraServiceStub::HandleCapture(MessageParcel& data, MessageParcel& reply) {
+        sptr<Ashmem> ashmem;
+        uint32_t width = data.ReadUint32();
+        uint32_t height = data.ReadUint32();
+        int error = Capture(ashmem, width, height);
+        if (error != ERR_NONE) {
+            if (ashmem != nullptr) {
+                ashmem->UnmapAshmem();
+                ashmem->CloseAshmem();
+            }
+            return error;
         }
 
-        if (!reply.WriteBuffer(handle->content, handle->size)) {
-            LOGE("%s", "HITCameraServiceStub HandleCapture failed to write content");
+        if (!reply.WriteAshmem(ashmem)) {
+            LOGE("%s", "HITCameraServiceStub HandleCapture failed to write ashmem");
             return IPC_STUB_WRITE_PARCEL_ERR;
         }
 

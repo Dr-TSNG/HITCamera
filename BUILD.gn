@@ -1,6 +1,6 @@
 import("//build/ohos.gni")
 
-ohos_shared_library("hit_camera_service") {
+ohos_shared_library("rpi4b_camera_service") {
     install_enable = true
     sources = [
         "server/take_picture.cpp",
@@ -15,9 +15,7 @@ ohos_shared_library("hit_camera_service") {
     cflags_cc = cflags
     include_dirs = [
         "//drivers/framework/include/utils/",
-        "//foundation/multimedia/hit_camera/service/base",
-        "//foundation/multimedia/hit_camera/service/client/include",
-        "//foundation/multimedia/hit_camera/service/server/include"
+        "//foundation/multimedia/rpi4b_camera_standard/include",
     ]
 
     if (target_cpu == "arm") {
@@ -26,9 +24,10 @@ ohos_shared_library("hit_camera_service") {
     external_deps = [
         "hiviewdfx_hilog_native:libhilog",
         "ipc:ipc_core",
-        "safwk:system_ability_fwk",
         "samgr_L2:samgr_proxy",
+        "safwk:system_ability_fwk",
+        "utils_base:utils"
     ]
-    part_name = "multimedia_hitcamera"
+    part_name = "multimedia_rpi4b_camera_standard"
     subsystem_name = "multimedia"
 }

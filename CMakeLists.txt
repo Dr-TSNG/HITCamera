@@ -7,9 +7,7 @@ include_directories("ohos/ipc")
 include_directories("ohos/sa")
 include_directories("ohos/utils")
 
-include_directories("base")
-include_directories("client/include")
-include_directories("server/include")
+include_directories("include")
 
 add_library(HITCamera
         server/take_picture.cpp

@@ -10,6 +10,6 @@ namespace OHOS::HITCamera {
         int OnRemoteRequest(uint32_t code, MessageParcel& data, MessageParcel& reply, MessageOption& option) override;
 
     private:
-        int HandleCapture(MessageParcel& reply);
+        int HandleCapture(MessageParcel& data, MessageParcel& reply);
     };
 }

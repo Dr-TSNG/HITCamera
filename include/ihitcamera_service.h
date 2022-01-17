@@ -6,12 +6,10 @@
 
 namespace OHOS::HITCamera {
 
-    enum Codes {
-        CAPTURE
-    };
-
     class IHITCameraService : public IRemoteBroker {
     public:
-        virtual int Capture(sptr<PictureHandle>& handle) = 0;
+        virtual int Capture(sptr<Ashmem>& ashmem, uint32_t width, uint32_t height) = 0;
+
+        DECLARE_INTERFACE_DESCRIPTOR(u"IHITCameraService");
     };
 }
