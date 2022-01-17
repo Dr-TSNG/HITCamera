@@ -28,6 +28,7 @@ namespace OHOS::HITCamera {
             LOGE("%s", "Failed mapping memory"); \
             FAIL(FAILED_MAP);                    \
         }
+#define UNMAP() munmap(buffer, buf.length)
 
     std::variant<sptr<Ashmem>, int> TakeOnePicture(uint32_t width, uint32_t height) {
         mtx.lock();
@@ -83,14 +84,16 @@ namespace OHOS::HITCamera {
         buf.memory = V4L2_MEMORY_MMAP;
         buf.index = 0;
 
-        if (-1 == ioctl(fd, VIDIOC_QBUF, &buf)) {
-            LOGE("Failed queueing buffer: %s", strerror(errno));
-            FAIL(FAILED_QUEUE_BUFFER);
-        }
-
         if (-1 == xioctl(fd, VIDIOC_STREAMON, &buf.type)) {
             LOGE("Failed starting capture: %s", strerror(errno));
+            UNMAP();
             FAIL(FAILED_START_CAPTURE);
+        }
+
+        if (-1 == ioctl(fd, VIDIOC_QBUF, &buf)) {
+            LOGE("Failed queueing buffer: %s", strerror(errno));
+            UNMAP();
+            FAIL(FAILED_QUEUE_BUFFER);
         }
 
         fd_set fds;
@@ -102,12 +105,14 @@ namespace OHOS::HITCamera {
         LOGD("%s", "Waiting for frame");
         if (-1 == select(fd + 1, &fds, nullptr, nullptr, &tv)) {
             LOGE("Failed waiting for frame: %s", strerror(errno));
+            UNMAP();
             FAIL(FAILED_WAIT_FRAME);
         }
 
         LOGD("%s", "Retrieving frame");
         if (-1 == xioctl(fd, VIDIOC_DQBUF, &buf)) {
             LOGE("Failed retrieving frame: %s", strerror(errno));
+            UNMAP();
             FAIL(FAILED_RETRIEVE_FRAME);
         }
 
@@ -117,6 +122,7 @@ namespace OHOS::HITCamera {
         CHECK_MAP(ashmem != nullptr)
         CHECK_MAP(ashmem->MapReadAndWriteAshmem())
         CHECK_MAP(ashmem->WriteToAshmem(buffer, size, 0))
+        UNMAP();
 
         if (-1 == xioctl(fd, VIDIOC_STREAMOFF, &buf.type)) {
             LOGE("Failed when stream off: %s", strerror(errno));

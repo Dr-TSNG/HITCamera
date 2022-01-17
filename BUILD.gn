@@ -6,6 +6,7 @@ ohos_shared_library("rpi4b_camera_service") {
         "server/take_picture.cpp",
         "server/hitcamera_service_stub.cpp",
         "server/hitcamera_service_impl.cpp",
+        "client/hitcamera_manager.cpp",
         "client/hitcamera_service_proxy.cpp"
     ]
     cflags = [

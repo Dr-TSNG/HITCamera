@@ -4,16 +4,16 @@ namespace OHOS::HITCamera {
 
     int HITCameraServiceStub::OnRemoteRequest(uint32_t code, OHOS::MessageParcel& data, OHOS::MessageParcel& reply,
                                                     OHOS::MessageOption& option) {
-        int errCode = ERR_NONE;
+        int error = ERR_NONE;
         switch (code) {
             case ACTION_CAPTURE:
-                errCode = HITCameraServiceStub::HandleCapture(reply);
+                error = HITCameraServiceStub::HandleCapture(data, reply);
                 break;
             default:
                 LOGE("HITCameraServiceStub request code %d not handled", code);
                 break;
         }
-        return errCode;
+        return error;
     }
 
     int HITCameraServiceStub::HandleCapture(MessageParcel& data, MessageParcel& reply) {

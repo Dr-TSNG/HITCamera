@@ -5,21 +5,26 @@
 
 namespace OHOS::HITCamera {
 
+    struct PictureHandle {
+        int id;
+        int32_t size;
+        const void* buffer;
+    };
+
     class CameraManager {
         DISALLOW_COPY_AND_MOVE(CameraManager);
 
     public:
         static CameraManager& Instance();
 
-        const char* Capture(uint32_t width, uint32_t height);
+        PictureHandle Capture(uint32_t width, uint32_t height);
 
-        void Release(const char* path);
+        void Release(int id);
 
     private:
         sptr<IHITCameraService> mServiceProxy = nullptr;
 
         std::unordered_map<int, sptr<Ashmem>> mShmMap;
-        std::unordered_map<int, char*> mPathMap;
 
         CameraManager();
     };

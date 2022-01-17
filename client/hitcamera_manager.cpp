@@ -1,4 +1,3 @@
-#include <climits>
 #include <iservice_registry.h>
 #include "hitcamera_manager.h"
 
@@ -23,28 +22,20 @@ namespace OHOS::HITCamera {
         return mManager;
     }
 
-    const char* CameraManager::Capture(uint32_t width, uint32_t height) {
+    PictureHandle CameraManager::Capture(uint32_t width, uint32_t height) {
         sptr<Ashmem> ashmem;
         int error = mServiceProxy->Capture(ashmem, width, height);
-        if (error != NO_ERROR) return nullptr;
+        if (error != NO_ERROR) return PictureHandle{-1, 0, nullptr};
         int fd = ashmem->GetAshmemFd();
-        char* path = new char[PATH_MAX];
-        sprintf(path, "/proc/fd/%d", fd);
-
+        int32_t size = ashmem->GetAshmemSize();
         mShmMap[fd] = ashmem;
-        mPathMap[fd] = path;
-        return path;
+        return PictureHandle{fd, size, ashmem->ReadFromAshmem(size, 0)};
     }
 
-    void CameraManager::Release(const char* path) {
-        int fd;
-        sscanf(path, "/proc/fd/%d", &fd);
+    void CameraManager::Release(int fd) {
         sptr<Ashmem> ashmem = mShmMap[fd];
-        delete[] mPathMap[fd];
         ashmem->UnmapAshmem();
         ashmem->CloseAshmem();
-
         mShmMap.erase(fd);
-        mPathMap.erase(fd);
     }
 }
