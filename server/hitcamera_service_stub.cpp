@@ -31,9 +31,13 @@ namespace OHOS::HITCamera {
 
         if (!reply.WriteAshmem(ashmem)) {
             LOGE("%s", "HITCameraServiceStub HandleCapture failed to write ashmem");
+            ashmem->UnmapAshmem();
+            ashmem->CloseAshmem();
             return IPC_STUB_WRITE_PARCEL_ERR;
         }
 
+        ashmem->UnmapAshmem();
+        ashmem->CloseAshmem();
         return ERR_NONE;
     }
 }

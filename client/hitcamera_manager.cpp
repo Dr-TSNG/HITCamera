@@ -28,8 +28,10 @@ namespace OHOS::HITCamera {
         if (error != NO_ERROR) return PictureHandle{-1, 0, nullptr};
         int fd = ashmem->GetAshmemFd();
         int32_t size = ashmem->GetAshmemSize();
+        ashmem->MapReadOnlyAshmem();
+        const void* buf = ashmem->ReadFromAshmem(size, 0);
         mShmMap[fd] = ashmem;
-        return PictureHandle{fd, size, ashmem->ReadFromAshmem(size, 0)};
+        return PictureHandle{fd, size, buf};
     }
 
     void CameraManager::Release(int fd) {
