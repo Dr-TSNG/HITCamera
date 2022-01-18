@@ -20,7 +20,7 @@ namespace OHOS::HITCamera {
         uint32_t widthCached, heightCached;
 
         std::mutex watchDogMtx;
-        std::atomic_bool watchDogCancel = true;
+        std::atomic_bool watchDogCancel = false;
         std::atomic<time_t> timeStamp;
 
         void WatchDogImpl();
@@ -93,6 +93,7 @@ namespace OHOS::HITCamera {
         }
 
         void StopStream() {// Synchronized by WatchDog with watchDogMtx
+            LOGD("%s", "Stopping stream");
             munmap(buffer, vbuf.length);
             if (-1 == xioctl(camera, VIDIOC_STREAMOFF, &vbuf.type)) {
                 LOGE("Failed when stream off: %s", strerror(errno));
@@ -143,13 +144,13 @@ namespace OHOS::HITCamera {
         if (width != widthCached || height != heightCached) { // Pixel not corresponding, cancel stream
             widthCached = width;
             heightCached = height;
-            CancelStream();
+            if (camera != -1) CancelStream();
         }
 
         if (watchDogMtx.try_lock()) { // Stream off, make start
             watchDogMtx.unlock();
             int error = StartStream();
-            if (error) {
+            if (error != NO_ERROR) {
                 StopStream();
                 FAIL(error);
             }
