@@ -31,7 +31,7 @@ namespace OHOS::HITCamera {
         ashmem->MapReadOnlyAshmem();
         const void* buf = ashmem->ReadFromAshmem(size, 0);
         mShmMap[fd] = ashmem;
-        LOGI("Capture a new picture: %d", fd);
+        LOGI("Capture a new picture: %{public}d", fd);
         return PictureHandle{fd, size, reinterpret_cast<int64_t>(buf)};
     }
 
@@ -40,6 +40,6 @@ namespace OHOS::HITCamera {
         ashmem->UnmapAshmem();
         ashmem->CloseAshmem();
         mShmMap.erase(handle.id);
-        LOGI("Release picture handle %d", handle.id);
+        LOGI("Release picture handle %{public}d", handle.id);
     }
 }

@@ -10,7 +10,7 @@ namespace OHOS::HITCamera {
                 error = HITCameraServiceStub::HandleCapture(data, reply);
                 break;
             default:
-                LOGE("HITCameraServiceStub request code %d not handled", code);
+                LOGE("HITCameraServiceStub request code %{public}d not handled", code);
                 break;
         }
         return error;

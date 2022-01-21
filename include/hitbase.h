@@ -8,9 +8,9 @@ inline OHOS::HiviewDFX::HiLogLabel labal = {
         .tag = "HITCamera"
 };
 
-#define LOGD(msg, ...) OHOS::HiviewDFX::HiLog::Debug(labal, "[%s] [line %d]: " msg, __FILE__, __LINE__, ##__VA_ARGS__)
-#define LOGI(msg, ...) OHOS::HiviewDFX::HiLog::Info(labal, "[%s] [line %d]: " msg, __FILE__, __LINE__, ##__VA_ARGS__)
-#define LOGE(msg, ...) OHOS::HiviewDFX::HiLog::Error(labal, "[%s] [line %d]: " msg, __FILE__, __LINE__, ##__VA_ARGS__)
+#define LOGD(msg, ...) OHOS::HiviewDFX::HiLog::Debug(labal, "[%{public}s] [line %{public}d]: " msg, __FILE__, __LINE__, ##__VA_ARGS__)
+#define LOGI(msg, ...) OHOS::HiviewDFX::HiLog::Info(labal, "[%{public}s] [line %{public}d]: " msg, __FILE__, __LINE__, ##__VA_ARGS__)
+#define LOGE(msg, ...) OHOS::HiviewDFX::HiLog::Error(labal, "[%{public}s] [line %{public}d]: " msg, __FILE__, __LINE__, ##__VA_ARGS__)
 
 enum Codes {
     ACTION_CAPTURE,

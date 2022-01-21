@@ -39,13 +39,13 @@ namespace OHOS::HITCamera {
 
             camera = open("/dev/video0", O_RDWR);
             if (camera == -1) {
-                LOGE("Failed opening video device: %s", strerror(errno));
+                LOGE("Failed opening video device: %{public}s", strerror(errno));
                 return FAILED_OPEN_DEVICE;
             }
 
             v4l2_capability caps{};
             if (-1 == xioctl(camera, VIDIOC_QUERYCAP, &caps)) {
-                LOGE("Failed querying capabilities: %s", strerror(errno));
+                LOGE("Failed querying capabilities: %{public}s", strerror(errno));
                 return FAILED_QUERY_CAPABILITIES;
             }
 
@@ -57,7 +57,7 @@ namespace OHOS::HITCamera {
             fmt.fmt.pix.pixelformat = V4L2_PIX_FMT_MJPEG;
             fmt.fmt.pix.field = V4L2_FIELD_NONE;
             if (-1 == xioctl(camera, VIDIOC_S_FMT, &fmt)) {
-                LOGE("Failed setting pixel format: %s", strerror(errno));
+                LOGE("Failed setting pixel format: %{public}s", strerror(errno));
                 return FAILED_SET_FORMAT;
             }
 
@@ -67,7 +67,7 @@ namespace OHOS::HITCamera {
             req.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
             req.memory = V4L2_MEMORY_MMAP;
             if (-1 == xioctl(camera, VIDIOC_REQBUFS, &req)) {
-                LOGE("Failed requesting buffer: %s", strerror(errno));
+                LOGE("Failed requesting buffer: %{public}s", strerror(errno));
                 return FAILED_REQUEST_BUFFER;
             }
 
@@ -77,14 +77,14 @@ namespace OHOS::HITCamera {
             vbuf.memory = V4L2_MEMORY_MMAP;
             vbuf.index = 0;
             if (-1 == xioctl(camera, VIDIOC_QUERYBUF, &vbuf)) {
-                LOGE("Failed querying buffer: %s", strerror(errno));
+                LOGE("Failed querying buffer: %{public}s", strerror(errno));
                 return FAILED_QUERY_BUFFER;
             }
             buffer = mmap(nullptr, vbuf.length, PROT_READ | PROT_WRITE, MAP_SHARED, camera, vbuf.m.offset);
-            LOGD("Query buffer: Lenght: %d Address: %p", vbuf.length, buffer);
+            LOGD("Query buffer: Lenght: %{public}d Address: %{public}p", vbuf.length, buffer);
 
             if (-1 == xioctl(camera, VIDIOC_STREAMON, &vbuf.type)) {
-                LOGE("Failed starting capture: %s", strerror(errno));
+                LOGE("Failed starting capture: %{public}s", strerror(errno));
                 munmap(buffer, vbuf.length);
                 return FAILED_START_STREAM;
             }
@@ -96,7 +96,7 @@ namespace OHOS::HITCamera {
             LOGD("Stopping stream");
             munmap(buffer, vbuf.length);
             if (-1 == xioctl(camera, VIDIOC_STREAMOFF, &vbuf.type)) {
-                LOGE("Failed when stream off: %s", strerror(errno));
+                LOGE("Failed when stream off: %{public}s", strerror(errno));
             }
             close(camera);
             camera = -1;
@@ -158,7 +158,7 @@ namespace OHOS::HITCamera {
         }
 
         if (-1 == ioctl(camera, VIDIOC_QBUF, &vbuf)) {
-            LOGE("Failed queueing buffer: %s", strerror(errno));
+            LOGE("Failed queueing buffer: %{public}s", strerror(errno));
             FAIL(FAILED_QUEUE_BUFFER);
         }
 
@@ -170,14 +170,14 @@ namespace OHOS::HITCamera {
 
         LOGD("Waiting for frame");
         if (-1 == select(camera + 1, &fds, nullptr, nullptr, &tv)) {
-            LOGE("Failed waiting for frame: %s", strerror(errno));
+            LOGE("Failed waiting for frame: %{public}s", strerror(errno));
             CancelStream();
             FAIL(FAILED_WAIT_FRAME);
         }
 
         LOGD("Retrieving frame");
         if (-1 == xioctl(camera, VIDIOC_DQBUF, &vbuf)) {
-            LOGE("Failed retrieving frame: %s", strerror(errno));
+            LOGE("Failed retrieving frame: %{public}s", strerror(errno));
             CancelStream();
             FAIL(FAILED_RETRIEVE_FRAME);
         }
