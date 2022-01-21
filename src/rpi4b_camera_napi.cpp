@@ -41,7 +41,7 @@ namespace OHOS::HITCamera {
         NPictureHandle* object;
         NAPI_CALL(env, napi_unwrap(env, args[0], reinterpret_cast<void**>(&object)));
 
-        CameraManager::Instance().Release(object->mHandle.id);
+        CameraManager::Instance().Release(object->mHandle);
 
         return nullptr;
     }

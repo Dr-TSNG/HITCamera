@@ -19,7 +19,7 @@ namespace OHOS::HITCamera {
 
         PictureHandle Capture(uint32_t width, uint32_t height);
 
-        void Release(int id);
+        void Release(PictureHandle handle);
 
     private:
         sptr<IHITCameraService> mServiceProxy = nullptr;

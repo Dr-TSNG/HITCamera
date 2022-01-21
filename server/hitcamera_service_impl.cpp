@@ -8,20 +8,20 @@ namespace OHOS::HITCamera {
 
     HITCameraService::HITCameraService(int32_t systemAbilityId, bool runOnCreate)
             : SystemAbility(systemAbilityId, runOnCreate) {
-        LOGD("%s", "HITCameraService Instantiate");
+        LOGD("HITCameraService Instantiate");
     }
 
     void HITCameraService::OnStart() {
-        LOGD("%s", "HITCameraService::OnStart()");
+        LOGD("HITCameraService::OnStart()");
         Publish(this);
     }
 
     void HITCameraService::OnDump() {
-        LOGD("%s", "HITCameraService::OnDump()");
+        LOGD("HITCameraService::OnDump()");
     }
 
     void HITCameraService::OnStop() {
-        LOGD("%s", "HITCameraService::OnStop()");
+        LOGD("HITCameraService::OnStop()");
     }
 
     int HITCameraService::Capture(sptr<Ashmem>& ashmem, uint32_t width, uint32_t height) {

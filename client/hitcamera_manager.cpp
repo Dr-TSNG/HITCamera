@@ -7,12 +7,12 @@ namespace OHOS::HITCamera {
         auto samgr = SystemAbilityManagerClient::GetInstance().GetSystemAbilityManager();
         sptr<IRemoteObject> object = samgr->GetSystemAbility(9902);
         if (object == nullptr) {
-            fprintf(stderr, "Get HITCameraService failed\n");
+            LOGE("Get HITCameraService failed");
             return;
         }
         mServiceProxy = iface_cast<IHITCameraService>(object);
         if (mServiceProxy == nullptr) {
-            fprintf(stderr, "Cast proxy failed\n");
+            LOGE("Cast proxy failed");
             return;
         }
     }
@@ -31,13 +31,15 @@ namespace OHOS::HITCamera {
         ashmem->MapReadOnlyAshmem();
         const void* buf = ashmem->ReadFromAshmem(size, 0);
         mShmMap[fd] = ashmem;
+        LOGI("Capture a new picture: %d", fd);
         return PictureHandle{fd, size, reinterpret_cast<int64_t>(buf)};
     }
 
-    void CameraManager::Release(int fd) {
-        sptr<Ashmem> ashmem = mShmMap[fd];
+    void CameraManager::Release(PictureHandle handle) {
+        sptr<Ashmem> ashmem = mShmMap[handle.id];
         ashmem->UnmapAshmem();
         ashmem->CloseAshmem();
-        mShmMap.erase(fd);
+        mShmMap.erase(handle.id);
+        LOGI("Release picture handle %d", handle.id);
     }
 }

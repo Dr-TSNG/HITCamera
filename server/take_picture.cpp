@@ -93,7 +93,7 @@ namespace OHOS::HITCamera {
         }
 
         void StopStream() {// Synchronized by WatchDog with watchDogMtx
-            LOGD("%s", "Stopping stream");
+            LOGD("Stopping stream");
             munmap(buffer, vbuf.length);
             if (-1 == xioctl(camera, VIDIOC_STREAMOFF, &vbuf.type)) {
                 LOGE("Failed when stream off: %s", strerror(errno));
@@ -132,9 +132,9 @@ namespace OHOS::HITCamera {
     }
 
 #define FAIL(reason) mtx.unlock(); return reason
-#define CHECK_MAP(func) if (!(func)) {           \
-            LOGE("%s", "Failed mapping memory"); \
-            FAIL(FAILED_MAP);                    \
+#define CHECK_MAP(func) if (!(func)) {     \
+            LOGE("Failed mapping memory"); \
+            FAIL(FAILED_MAP);              \
         }
 
     std::variant<sptr<Ashmem>, int> TakeOnePicture(uint32_t width, uint32_t height) {
@@ -168,21 +168,21 @@ namespace OHOS::HITCamera {
         timeval tv{};
         tv.tv_sec = 2;
 
-        LOGD("%s", "Waiting for frame");
+        LOGD("Waiting for frame");
         if (-1 == select(camera + 1, &fds, nullptr, nullptr, &tv)) {
             LOGE("Failed waiting for frame: %s", strerror(errno));
             CancelStream();
             FAIL(FAILED_WAIT_FRAME);
         }
 
-        LOGD("%s", "Retrieving frame");
+        LOGD("Retrieving frame");
         if (-1 == xioctl(camera, VIDIOC_DQBUF, &vbuf)) {
             LOGE("Failed retrieving frame: %s", strerror(errno));
             CancelStream();
             FAIL(FAILED_RETRIEVE_FRAME);
         }
 
-        LOGD("%s", "Writing image");
+        LOGD("Writing image");
         auto size = static_cast<int32_t>(vbuf.bytesused);
         auto ashmem = Ashmem::CreateAshmem("hit_picture", size);
         CHECK_MAP(ashmem != nullptr)
