@@ -6,9 +6,9 @@
 namespace OHOS::HITCamera {
 
     struct PictureHandle {
-        int id;
+        int32_t id;
         int32_t size;
-        const void* buffer;
+        int64_t buffer;
     };
 
     class CameraManager {
