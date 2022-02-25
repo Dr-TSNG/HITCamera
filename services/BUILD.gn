@@ -25,7 +25,6 @@ ohos_shared_library("hit_camera_service") {
         "hiviewdfx_hilog_native:libhilog",
         "ipc:ipc_core",
         "safwk:system_ability_fwk",
-        "samgr_standard:samgr_proxy",
     ]
 
     cflags = [

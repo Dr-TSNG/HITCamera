@@ -31,20 +31,29 @@ ohos_shared_library("hitcamerajs") {
   part_name = "multimedia_hit_camera_standard"
   relative_install_dir = "module/multimedia"
 
-  include_dirs = [ 
-    "//foundation/multimedia/hit_camera_standard/include",
+  include_dirs = [
+    "//foundation/multimedia/hit_camera_standard/interfaces/kits/js/include",
+    "//foundation/multimedia/hit_camera_standard/interfaces/kits/native",
+    "//foundation/multimedia/hit_camera_standard/services/include",
     "//base/hiviewdfx/hilog/interfaces/native/innerkits/include/",
     "//utils/native/base/include",
     "//foundation/distributedschedule/samgr/interfaces/innerkits/samgr_proxy/include",
   ]
 
-  sources = [ 
+  sources = [
     "//foundation/multimedia/hit_camera_standard/frameworks/kitsimpl/js/hit_camera_napi.cpp",
     "//foundation/multimedia/hit_camera_standard/frameworks/kitsimpl/js/camera_handle_class_napi.cpp",
   ]
 
   deps = [
+    "//utils/native/base:utils",
     "//foundation/ace/napi:ace_napi",
     "//foundation/multimedia/hit_camera_standard/interfaces/kits/native:hit_camera_client",
+  ]
+
+  external_deps = [
+    "hiviewdfx_hilog_native:libhilog",
+    "ipc:ipc_core",
+    "samgr_standard:samgr_proxy",
   ]
 }

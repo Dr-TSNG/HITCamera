@@ -12,9 +12,17 @@ ohos_shared_library("hit_camera_client") {
 
     include_dirs = [
         "//foundation/multimedia/hit_camera_standard/interfaces/kits/native",
+        "//foundation/multimedia/hit_camera_standard/services/include",
     ]
 
     deps = [
+        "//utils/native/base:utils",
         "//foundation/multimedia/hit_camera_standard/services:hit_camera_service",
+    ]
+
+    external_deps = [
+        "hiviewdfx_hilog_native:libhilog",
+        "ipc:ipc_core",
+        "samgr_standard:samgr_proxy",
     ]
 }
