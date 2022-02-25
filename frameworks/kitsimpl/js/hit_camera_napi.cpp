@@ -69,7 +69,7 @@ static napi_module Rpi4bCameraModule = {
         .nm_flags = 0,
         .nm_filename = nullptr,
         .nm_register_func = Init,
-        .nm_modname = "rpi4bcamerajs",
+        .nm_modname = "hitcamerajs",
         .nm_priv = nullptr,
         .reserved = {nullptr}
 };

@@ -1,5 +1,0 @@
-service rpi4b_camera_service /system/bin/sa_main /system/profile/rpi4b_camera_service.xml
-    class z_core
-    user rpi4bcameraserver
-    group system shell
-    seclabel u:r:rpi4bcameraservice:s0

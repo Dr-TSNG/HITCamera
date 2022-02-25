@@ -1,0 +1,23 @@
+{
+  "subsystem": "multimedia",
+  "parts": {
+    "multimedia_hit_camera_standard": {
+      "variants": [
+        "phone",
+        "ivi",
+        "wearable"
+      ],
+      "module_list": [
+        "//foundation/multimedia/hit_camera_standard/interfaces/kits/native:hit_camera_client",
+        "//foundation/multimedia/hit_camera_standard/services:hit_camera_service",
+        "//foundation/multimedia/hit_camera_standard/services/etc:hit_camera_service.rc",
+        "//foundation/multimedia/hit_camera_standard/sa_profile:hit_camera_service_sa_profile",
+        "//foundation/multimedia/hit_camera_standard/test:camera_test",
+        "//foundation/multimedia/hit_camera_standard/interfaces/kits/js/hit_camera:hitcamerajs"
+      ],
+      "system_capabilities":[
+        "SystemCapability.Multimedia.hit_camera"
+      ]
+    }
+  }
+}

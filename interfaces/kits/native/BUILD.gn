@@ -1,0 +1,20 @@
+import("//build/ohos.gni")
+
+ohos_shared_library("hit_camera_client") {
+    subsystem_name = "multimedia"
+    part_name = "multimedia_hit_camera_standard"
+    install_enable = true
+
+    sources = [
+        "//foundation/multimedia/hit_camera_standard/frameworks/kitsimpl/native/hitcamera_manager.cpp",
+        "//foundation/multimedia/hit_camera_standard/frameworks/kitsimpl/native/hitcamera_service_proxy.cpp",
+    ]
+
+    include_dirs = [
+        "//foundation/multimedia/hit_camera_standard/interfaces/kits/native",
+    ]
+
+    deps = [
+        "//foundation/multimedia/hit_camera_standard/services:hit_camera_service",
+    ]
+}

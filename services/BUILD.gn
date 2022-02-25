@@ -1,0 +1,39 @@
+import("//build/ohos.gni")
+
+ohos_shared_library("hit_camera_service") {
+    subsystem_name = "multimedia"
+    part_name = "multimedia_hit_camera_standard"
+    install_enable = true
+
+    sources = [
+        "server/hitcamera_service_impl.cpp",
+        "server/hitcamera_service_stub.cpp",
+        "server/take_picture.cpp"
+    ]
+
+    include_dirs = [
+        "//drivers/framework/include/utils/",
+        "//foundation/multimedia/hit_camera_standard/services/include",
+        "//foundation/multimedia/hit_camera_standard/services/server/include",
+    ]
+
+    deps = [
+        "//utils/native/base:utils",
+    ]
+
+    external_deps = [
+        "hiviewdfx_hilog_native:libhilog",
+        "ipc:ipc_core",
+        "safwk:system_ability_fwk",
+        "samgr_standard:samgr_proxy",
+    ]
+
+    cflags = [
+        "-fPIC",
+        "-Wall",
+    ]
+    cflags_cc = cflags
+    if (target_cpu == "arm") {
+        cflags += [ "-DBINDER_IPC_32BIT" ]
+    }
+}

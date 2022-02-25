@@ -1,0 +1,13 @@
+import("//build/ohos.gni")
+
+ohos_executable("camera_test") {
+    subsystem_name = "multimedia"
+    part_name = "multimedia_hit_camera_standard"
+    install_enable = true
+
+    sources = [ "test.cpp" ]
+
+    deps = [
+        "//foundation/multimedia/hit_camera_standard/interfaces/kits/native:hit_camera_client"
+    ]
+}

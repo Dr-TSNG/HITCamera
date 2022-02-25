@@ -3,20 +3,29 @@ project(HITCamera)
 
 set(CMAKE_CXX_STANDARD 17)
 
-include_directories("ohos")
-include_directories("ohos/ipc")
-include_directories("ohos/node")
-include_directories("ohos/sa")
-include_directories("ohos/samgr")
-include_directories("ohos/utils")
+include_directories(
+        "ohos"
+        "ohos/ipc"
+        "ohos/node"
+        "ohos/sa"
+        "ohos/samgr"
+        "ohos/utils"
+)
 
-include_directories("include")
+include_directories(
+        services/include
+        services/server/include
+        interfaces/innerkits
+        interfaces/kits/js/include
+        interfaces/kits/native
+)
 
 add_library(HITCamera
-        server/take_picture.cpp
-        server/hitcamera_service_stub.cpp
-        server/hitcamera_service_impl.cpp
-        client/hitcamera_service_proxy.cpp
-        client/hitcamera_manager.cpp
-        src/camera_handle_class_napi.cpp
-        src/rpi4b_camera_napi.cpp)
+        services/server/hitcamera_service_impl.cpp
+        services/server/hitcamera_service_stub.cpp
+        services/server/take_picture.cpp
+        frameworks/kitsimpl/js/camera_handle_class_napi.cpp
+        frameworks/kitsimpl/js/hit_camera_napi.cpp
+        frameworks/kitsimpl/native/hitcamera_manager.cpp
+        frameworks/kitsimpl/native/hitcamera_service_proxy.cpp
+)
