@@ -23,3 +23,11 @@ ohos_executable("camera_test") {
         "samgr_standard:samgr_proxy",
     ]
 }
+
+ohos_executable("camera_native_test") {
+    subsystem_name = "multimedia"
+    part_name = "multimedia_hit_camera_standard"
+    install_enable = true
+
+    sources = [ "native_test.cpp" ]
+}

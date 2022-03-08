@@ -29,4 +29,5 @@ add_library(HITCamera
         frameworks/kitsimpl/native/hitcamera_manager.cpp
         frameworks/kitsimpl/native/hitcamera_service_proxy.cpp
         test/test.cpp
+        test/native_test.cpp
 )
