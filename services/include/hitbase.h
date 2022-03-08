@@ -2,6 +2,24 @@
 
 #include "hilog/log.h"
 
+#undef LOG_DOMAIN
+#undef LOG_TAG
+#define LOG_DOMAIN 0xdeadbeef
+#define LOG_TAG "HITCamera"
+
+#define __FILENAME__ (__builtin_strrchr(__FILE__, '/') ? __builtin_strrchr(__FILE__, '/') + 1 : __FILE__)
+
+#define DECORATOR_HILOG(op, fmt, args...)                                                \
+    do {                                                                                 \
+        op(LOG_CORE, "{%s()-%s:%d} " fmt, __FUNCTION__, __FILENAME__, __LINE__, ##args); \
+    } while (0)
+
+#define LOGD(fmt, ...) DECORATOR_HILOG(HILOG_DEBUG, fmt, ##__VA_ARGS__)
+#define LOGE(fmt, ...) DECORATOR_HILOG(HILOG_ERROR, fmt, ##__VA_ARGS__)
+#define LOGI(fmt, ...) DECORATOR_HILOG(HILOG_INFO, fmt, ##__VA_ARGS__)
+
+/*
+
 inline OHOS::HiviewDFX::HiLogLabel labal = {
         .type = LOG_CORE,
         .domain = 0xdeadbeef,
@@ -11,6 +29,8 @@ inline OHOS::HiviewDFX::HiLogLabel labal = {
 #define LOGD(msg, ...) OHOS::HiviewDFX::HiLog::Debug(labal, "[%{public}s] [line %{public}d]: " msg, __FILE__, __LINE__, ##__VA_ARGS__)
 #define LOGI(msg, ...) OHOS::HiviewDFX::HiLog::Info(labal, "[%{public}s] [line %{public}d]: " msg, __FILE__, __LINE__, ##__VA_ARGS__)
 #define LOGE(msg, ...) OHOS::HiviewDFX::HiLog::Error(labal, "[%{public}s] [line %{public}d]: " msg, __FILE__, __LINE__, ##__VA_ARGS__)
+
+*/
 
 enum Codes {
     ACTION_CAPTURE,
