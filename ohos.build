@@ -13,6 +13,7 @@
         "//foundation/multimedia/hit_camera_standard/services/etc:hit_camera_service.rc",
         "//foundation/multimedia/hit_camera_standard/sa_profile:hit_camera_service_sa_profile",
         "//foundation/multimedia/hit_camera_standard/test:camera_test",
+        "//foundation/multimedia/hit_camera_standard/test:camera_native_test",
         "//foundation/multimedia/hit_camera_standard/interfaces/kits/js:hitcamerajs"
       ],
       "system_capabilities":[

@@ -33,6 +33,40 @@ int main() {
         return 0;
     }
 
+    LOGD("");
+    LOGD("Driver: %s", caps.driver);
+    LOGD("Card: %s", caps.card);
+    LOGD("Bus: %s", caps.bus_info);
+    LOGD("Version: %08x", caps.version);
+    LOGD("V4L2_CAP_VIDEO_CAPTURE: %d", caps.capabilities & V4L2_CAP_VIDEO_CAPTURE);
+    LOGD("V4L2_CAP_VIDEO_CAPTURE_MPLANE: %d", caps.capabilities & V4L2_CAP_VIDEO_CAPTURE_MPLANE);
+    LOGD("V4L2_CAP_VIDEO_OUTPUT: %d", caps.capabilities & V4L2_CAP_VIDEO_OUTPUT);
+    LOGD("V4L2_CAP_VIDEO_OUTPUT_MPLANE: %d", caps.capabilities & V4L2_CAP_VIDEO_OUTPUT_MPLANE);
+    LOGD("V4L2_CAP_VIDEO_M2M: %d", caps.capabilities & V4L2_CAP_VIDEO_M2M);
+    LOGD("V4L2_CAP_VIDEO_M2M_MPLANE: %d", caps.capabilities & V4L2_CAP_VIDEO_M2M_MPLANE);
+    LOGD("V4L2_CAP_VIDEO_OVERLAY: %d", caps.capabilities & V4L2_CAP_VIDEO_OVERLAY);
+    LOGD("V4L2_CAP_VBI_CAPTURE: %d", caps.capabilities & V4L2_CAP_VBI_CAPTURE);
+    LOGD("V4L2_CAP_VBI_OUTPUT: %d", caps.capabilities & V4L2_CAP_VBI_OUTPUT);
+    LOGD("V4L2_CAP_SLICED_VBI_CAPTURE: %d", caps.capabilities & V4L2_CAP_SLICED_VBI_CAPTURE);
+    LOGD("V4L2_CAP_SLICED_VBI_OUTPUT: %d", caps.capabilities & V4L2_CAP_SLICED_VBI_OUTPUT);
+    LOGD("V4L2_CAP_RDS_CAPTURE: %d", caps.capabilities & V4L2_CAP_RDS_CAPTURE);
+    LOGD("V4L2_CAP_VIDEO_OUTPUT_OVERLAY: %d", caps.capabilities & V4L2_CAP_VIDEO_OUTPUT_OVERLAY);
+    LOGD("V4L2_CAP_HW_FREQ_SEEK: %d", caps.capabilities & V4L2_CAP_HW_FREQ_SEEK);
+    LOGD("V4L2_CAP_RDS_OUTPUT: %d", caps.capabilities & V4L2_CAP_RDS_OUTPUT);
+    LOGD("V4L2_CAP_TUNER: %d", caps.capabilities & V4L2_CAP_TUNER);
+    LOGD("V4L2_CAP_AUDIO: %d", caps.capabilities & V4L2_CAP_AUDIO);
+    LOGD("V4L2_CAP_RADIO: %d", caps.capabilities & V4L2_CAP_RADIO);
+    LOGD("V4L2_CAP_MODULATOR: %d", caps.capabilities & V4L2_CAP_MODULATOR);
+    LOGD("V4L2_CAP_SDR_CAPTURE: %d", caps.capabilities & V4L2_CAP_SDR_CAPTURE);
+    LOGD("V4L2_CAP_EXT_PIX_FORMAT: %d", caps.capabilities & V4L2_CAP_EXT_PIX_FORMAT);
+    LOGD("V4L2_CAP_SDR_OUTPUT: %d", caps.capabilities & V4L2_CAP_SDR_OUTPUT);
+    LOGD("V4L2_CAP_READWRITE: %d", caps.capabilities & V4L2_CAP_READWRITE);
+    LOGD("V4L2_CAP_ASYNCIO: %d", caps.capabilities & V4L2_CAP_ASYNCIO);
+    LOGD("V4L2_CAP_STREAMING: %d", caps.capabilities & V4L2_CAP_STREAMING);
+    LOGD("V4L2_CAP_TOUCH: %d", caps.capabilities & V4L2_CAP_TOUCH);
+    LOGD("V4L2_CAP_DEVICE_CAPS: %d", caps.capabilities & V4L2_CAP_DEVICE_CAPS);
+    LOGD("");
+
     // Set format
     v4l2_format fmt{};
     fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
