@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <utility>
 #include "hitcamera_service_proxy.h"
 
 namespace OHOS::HITCamera {
@@ -15,17 +16,18 @@ namespace OHOS::HITCamera {
         DISALLOW_COPY_AND_MOVE(CameraManager);
 
     public:
-        static CameraManager& Instance();
+        static CameraManager* getInstance();
 
         PictureHandle Capture(uint32_t width, uint32_t height);
 
         void Release(PictureHandle handle);
 
     private:
-        sptr<IHITCameraService> mServiceProxy = nullptr;
+        sptr<IHITCameraService> mServiceProxy;
 
         std::unordered_map<int, sptr<Ashmem>> mShmMap;
 
-        CameraManager();
+        inline explicit CameraManager(sptr<IHITCameraService>&& proxy)
+                : mServiceProxy(proxy) {}
     };
 }

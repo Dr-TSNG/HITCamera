@@ -11,10 +11,15 @@ using namespace std;
 using namespace chrono;
 
 int main() {
-	auto& manager = CameraManager::Instance();
+    printf("Begin test\n");
+	auto manager = CameraManager::getInstance();
+    if (manager == nullptr) {
+        printf("Failed to get CameraManager instance\n");
+        return -1;
+    }
 	for (int i = 1; i <= 10; i++) {
 		auto t0 = system_clock::now();
-		PictureHandle handle = manager.Capture(320, 240);
+		PictureHandle handle = manager->Capture(320, 240);
 		if (handle.id == -1) {
 			printf("Failed to get image!\n");
 			return 0;
@@ -23,7 +28,7 @@ int main() {
 		auto duration = duration_cast<microseconds>(t1 - t0);
 		auto dd = double(duration.count()) * microseconds::period::num / microseconds::period::den;
 		printf("Picture %d cost %lf\n", i, dd);
-		manager.Release(handle);
+		manager->Release(handle);
 	}
 	
 	printf("End release\n");

@@ -3,22 +3,22 @@
 
 namespace OHOS::HITCamera {
 
-    CameraManager::CameraManager() {
-        auto samgr = SystemAbilityManagerClient::GetInstance().GetSystemAbilityManager();
-        sptr<IRemoteObject> object = samgr->GetSystemAbility(9902);
-        if (object == nullptr) {
-            LOGE("Get HITCameraService failed");
-            return;
+    CameraManager* CameraManager::getInstance() {
+        static CameraManager* mManager = nullptr;
+        if (mManager == nullptr) {
+            auto samgr = SystemAbilityManagerClient::GetInstance().GetSystemAbilityManager();
+            sptr<IRemoteObject> object = samgr->GetSystemAbility(9902);
+            if (object == nullptr) {
+                LOGE("Get SystemAbility failed");
+                return nullptr;
+            }
+            auto proxy = iface_cast<IHITCameraService>(object);
+            if (proxy == nullptr) {
+                LOGE("Cast proxy failed");
+                return nullptr;
+            }
+            mManager = new CameraManager(std::move(proxy));
         }
-        mServiceProxy = iface_cast<IHITCameraService>(object);
-        if (mServiceProxy == nullptr) {
-            LOGE("Cast proxy failed");
-            return;
-        }
-    }
-
-    CameraManager& CameraManager::Instance() {
-        static CameraManager mManager = CameraManager();
         return mManager;
     }
 

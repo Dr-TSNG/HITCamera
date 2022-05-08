@@ -17,7 +17,7 @@ namespace OHOS::HITCamera {
         NAPI_CALL(env, napi_typeof(env, args[1], &valuetype2));
         NAPI_CALL(env, napi_get_value_uint32(env, args[1], &height));
 
-        auto handle = CameraManager::Instance().Capture(width, height);
+        auto handle = CameraManager::getInstance()->Capture(width, height);
 
         napi_value values[3];
         NAPI_CALL(env, napi_create_int32(env, handle.id, &values[0]));
@@ -41,7 +41,7 @@ namespace OHOS::HITCamera {
         NPictureHandle* object;
         NAPI_CALL(env, napi_unwrap(env, args[0], reinterpret_cast<void**>(&object)));
 
-        CameraManager::Instance().Release(object->mHandle);
+        CameraManager::getInstance()->Release(object->mHandle);
 
         return nullptr;
     }
