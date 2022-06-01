@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 #include <utility>
+#include <variant>
 #include "hitcamera_service_proxy.h"
 
 namespace OHOS::HITCamera {
@@ -18,7 +19,7 @@ namespace OHOS::HITCamera {
     public:
         static CameraManager* getInstance();
 
-        PictureHandle Capture(uint32_t width, uint32_t height);
+        std::variant<PictureHandle, int> Capture(uint32_t width, uint32_t height);
 
         void Release(PictureHandle handle);
 

@@ -22,10 +22,13 @@ namespace OHOS::HITCamera {
         return mManager;
     }
 
-    PictureHandle CameraManager::Capture(uint32_t width, uint32_t height) {
+    std::variant<PictureHandle, int> CameraManager::Capture(uint32_t width, uint32_t height) {
         sptr<Ashmem> ashmem;
         int error = mServiceProxy->Capture(ashmem, width, height);
-        if (error != NO_ERROR) return PictureHandle{-1, 0, 0};
+        if (error != NO_ERROR) {
+            LOGE("Failed to capture picture: %{public}d", error);
+            return error;
+        }
         int fd = ashmem->GetAshmemFd();
         int32_t size = ashmem->GetAshmemSize();
         ashmem->MapReadOnlyAshmem();

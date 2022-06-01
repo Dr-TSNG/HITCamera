@@ -206,12 +206,12 @@ int main() {
     }
 
     if (try_mmap(camera)) {
-        LOGD("Mmap succeed!!!");
+        LOGD("Mmap successful");
     } else {
         LOGD("Mmap failed");
     }
     if (try_user_pointer(camera)) {
-        LOGD("User pointer succeed!!!");
+        LOGD("User pointer successful");
     } else {
         LOGD("User pointer failed");
     }

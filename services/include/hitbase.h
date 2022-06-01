@@ -9,9 +9,9 @@
 
 #define __FILENAME__ (__builtin_strrchr(__FILE__, '/') ? __builtin_strrchr(__FILE__, '/') + 1 : __FILE__)
 
-#define DECORATOR_HILOG(op, fmt, args...)                                                \
-    do {                                                                                 \
-        op(LOG_CORE, "{%s()-%s:%d} " fmt, __FUNCTION__, __FILENAME__, __LINE__, ##args); \
+#define DECORATOR_HILOG(op, fmt, args...)                                                                        \
+    do {                                                                                                         \
+        op(LOG_CORE, "{%{public}s()-%{public}s:%{public}d} " fmt, __FUNCTION__, __FILENAME__, __LINE__, ##args); \
     } while (0)
 
 #define LOGD(fmt, ...) DECORATOR_HILOG(HILOG_DEBUG, fmt, ##__VA_ARGS__)

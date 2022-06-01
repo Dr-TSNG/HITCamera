@@ -17,17 +17,27 @@ namespace OHOS::HITCamera {
         NAPI_CALL(env, napi_typeof(env, args[1], &valuetype2));
         NAPI_CALL(env, napi_get_value_uint32(env, args[1], &height));
 
-        auto handle = CameraManager::getInstance()->Capture(width, height);
+        auto manager = CameraManager::getInstance();
+        if (!manager) {
+            napi_throw_error(env, "HITCamera", "Failed to get CameraManager instance");
+            return nullptr;
+        }
 
-        napi_value values[3];
-        NAPI_CALL(env, napi_create_int32(env, handle.id, &values[0]));
-        NAPI_CALL(env, napi_create_int32(env, handle.size, &values[1]));
-        NAPI_CALL(env, napi_create_int64(env, handle.buffer, &values[2]));
+        auto res = CameraManager::getInstance()->Capture(width, height);
+        if (auto handle = std::get_if<PictureHandle>(&res)) {
+            napi_value values[3];
+            NAPI_CALL(env, napi_create_int32(env, handle->id, &values[0]));
+            NAPI_CALL(env, napi_create_int32(env, handle->size, &values[1]));
+            NAPI_CALL(env, napi_create_int64(env, handle->buffer, &values[2]));
 
-        napi_value object = nullptr;
-        NAPI_CALL(env, napi_new_instance(env, NPictureHandle::gConstructor, 3, values, &object));
-
-        return object;
+            napi_value object = nullptr;
+            NAPI_CALL(env, napi_new_instance(env, NPictureHandle::gConstructor, 3, values, &object));
+            return object;
+        } else {
+            std::string msg = "Failed to capture picture " + std::to_string(std::get<int>(res));
+            napi_throw_error(env, "HITCamera", msg.c_str());
+            return nullptr;
+        }
     }
 
     napi_value Release(napi_env env, napi_callback_info info) {
