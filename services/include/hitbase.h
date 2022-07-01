@@ -7,16 +7,26 @@
 #define LOG_DOMAIN 0xdeadbeef
 #define LOG_TAG "HITCamera"
 
+#ifndef __FILENAME__
 #define __FILENAME__ (__builtin_strrchr(__FILE__, '/') ? __builtin_strrchr(__FILE__, '/') + 1 : __FILE__)
+#endif
 
+#ifndef DECORATOR_HILOG
 #define DECORATOR_HILOG(op, fmt, args...)                                                                        \
     do {                                                                                                         \
         op(LOG_CORE, "{%{public}s()-%{public}s:%{public}d} " fmt, __FUNCTION__, __FILENAME__, __LINE__, ##args); \
     } while (0)
+#endif
 
+#ifndef LOGD
 #define LOGD(fmt, ...) DECORATOR_HILOG(HILOG_DEBUG, fmt, ##__VA_ARGS__)
+#endif
+#ifndef LOGE
 #define LOGE(fmt, ...) DECORATOR_HILOG(HILOG_ERROR, fmt, ##__VA_ARGS__)
+#endif
+#ifndef LOGI
 #define LOGI(fmt, ...) DECORATOR_HILOG(HILOG_INFO, fmt, ##__VA_ARGS__)
+#endif
 
 /*
 
