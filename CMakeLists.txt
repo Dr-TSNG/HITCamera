@@ -30,4 +30,7 @@ add_library(HITCamera
         frameworks/kitsimpl/native/hitcamera_service_proxy.cpp
         test/test.cpp
         test/native_test.cpp
+        udp/circular_buffer.c
+        udp/udp-piece.c
+        udp/udp-piece-server.c
 )
