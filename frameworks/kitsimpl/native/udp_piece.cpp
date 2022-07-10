@@ -9,14 +9,13 @@ void UdpPiece::Reset() {
     totalSize = 0;
     totalPieces = 0;
     recvLen = 0;
-    recvBuf.reset();
 }
 
 int UdpPiece::Merge(uint8_t* data, size_t size) {
     // 先将接收到的数据buf拷贝到环形缓存中
     size_t bytesToWrite = buffer.Write(data, size);
     if (bytesToWrite != size) {
-        LOGE("There is no enough space, only %zu bytes, but need %zu bytes", bytesToWrite, size);
+        LOGE("There is no enough space, only %{public}zu bytes, but need %{public}zu bytes", bytesToWrite, size);
         return -1;
     }
 
@@ -43,7 +42,7 @@ int UdpPiece::Merge(uint8_t* data, size_t size) {
                 recvPieces = 0;
                 recvLen = 0;
             }
-            LOGD("buf size: %zu, piece_data_len: %d, p_index: %d, recv_pieces: %d, total_size: %d, total_pieces: %d",
+            LOGD("buf size: %{public}zu, piece_data_len: %{public}d, p_index: %{public}d, recv_pieces: %{public}d, total_size: %{public}d, total_pieces: %{public}d",
                  buffer.GetSize(), dataLen, pIndex, recvPieces, totalSize, totalPieces);
 
             /* 计算当前分片所属分片组数据的总大小 */
@@ -52,7 +51,7 @@ int UdpPiece::Merge(uint8_t* data, size_t size) {
             int32_t tmpTotalPieces = buffer.GetBigEndian32(HEAD_POS_TOTAL_PIECES);
 
             if (tmpTotalSize != totalSize || tmpTotalPieces != totalPieces) {
-                LOGI("Discard current frame, total_pieces:%d, cur_total_pieces:%d, recv_pieces:%d, total_size:%d, cur_total_size:%d",
+                LOGI("Discard current frame, total_pieces:%{public}d, cur_total_pieces:%{public}d, recv_pieces:%{public}d, total_size:%{public}d, cur_total_size:%{public}d",
                      totalPieces, tmpTotalPieces, recvPieces, totalSize, tmpTotalSize);
                 totalSize = tmpTotalSize;
                 totalPieces = tmpTotalPieces;
@@ -65,13 +64,13 @@ int UdpPiece::Merge(uint8_t* data, size_t size) {
             // 将帧头出队列
             buffer.PopFront(HEAD_SIZE);
             // 读取分片数据
-            size_t bytesToRead = buffer.Read(*recvBuf + PIECE_FIX_SIZE * pIndex, dataLen);
+            size_t bytesToRead = buffer.Read(recvBuf + PIECE_FIX_SIZE * pIndex, dataLen);
             if (bytesToRead != dataLen) {
-                LOGE("There is no enough space, only %zu bytes, but need %zu bytes", bytesToRead, size);
+                LOGE("There is no enough space, only %{public}zu bytes, but need %{public}zu bytes", bytesToRead, size);
                 return -1;
             }
 
-            LOGD("Remain size = %zu", buffer.GetSize());
+            LOGD("Remain size = %{public}zu", buffer.GetSize());
 
             recvLen += dataLen;
             if (recvPieces == totalPieces) {
@@ -80,7 +79,7 @@ int UdpPiece::Merge(uint8_t* data, size_t size) {
                 done = 1;
             }
         } else {
-            LOGD("temp_size = %zu, HEAD_SIZE + data_len = %d", buffer.GetSize(), HEAD_SIZE + dataLen);
+            LOGD("temp_size = %{public}zu, HEAD_SIZE + data_len = %{public}d", buffer.GetSize(), HEAD_SIZE + dataLen);
             break;
         }
     }

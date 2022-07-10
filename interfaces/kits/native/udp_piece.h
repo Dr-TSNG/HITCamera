@@ -20,7 +20,9 @@
 
 class UdpPiece {
 public:
-    inline explicit UdpPiece(size_t capacity) : buffer(capacity) {}
+    inline explicit UdpPiece(size_t capacity)
+            : buffer(capacity),
+              recvBuf(std::make_unique<uint8_t[]>(SBUFFER)) {}
 
     /**
      * @brief 重置，这里不会重新分配资源，只是将部分参数重置到初始化状态
@@ -39,13 +41,13 @@ public:
     inline int GetRecvLen() const { return recvLen; }
 
     [[nodiscard]]
-    inline const uint8_t* GetRecvBuf() const { return *recvBuf; }
+    inline const uint8_t* GetRecvBuf() const { return recvBuf.get(); }
 
 private:
-    int recvPieces = 0;                         // 当前已经接收的分片数量
-    int totalSize = 0;                          // 总数据大小
-    int totalPieces = 0;                        // 分片总数量
-    int recvLen = 0;                            // 接收数据的长度
-    std::unique_ptr<uint8_t[SBUFFER]> recvBuf;  // 保存接收数据
-    CircularBuffer buffer;                      // 缓存
+    int recvPieces = 0;                  // 当前已经接收的分片数量
+    int totalSize = 0;                   // 总数据大小
+    int totalPieces = 0;                 // 分片总数量
+    int recvLen = 0;                     // 接收数据的长度
+    std::unique_ptr<uint8_t[]> recvBuf;  // 保存接收数据
+    CircularBuffer buffer;               // 缓存
 };
