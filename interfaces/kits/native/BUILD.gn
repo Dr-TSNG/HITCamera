@@ -8,6 +8,8 @@ ohos_shared_library("hit_camera_client") {
     sources = [
         "//foundation/multimedia/hit_camera_standard/frameworks/kitsimpl/native/hitcamera_manager.cpp",
         "//foundation/multimedia/hit_camera_standard/frameworks/kitsimpl/native/hitcamera_service_proxy.cpp",
+        "//foundation/multimedia/hit_camera_standard/frameworks/kitsimpl/native/circular_buffer.cpp",
+        "//foundation/multimedia/hit_camera_standard/frameworks/kitsimpl/native/udp_piece.cpp",
     ]
 
     include_dirs = [

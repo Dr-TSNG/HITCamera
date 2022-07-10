@@ -28,8 +28,11 @@ add_library(HITCamera
         frameworks/kitsimpl/js/hit_camera_napi.cpp
         frameworks/kitsimpl/native/hitcamera_manager.cpp
         frameworks/kitsimpl/native/hitcamera_service_proxy.cpp
+        frameworks/kitsimpl/native/circular_buffer.cpp
+        frameworks/kitsimpl/native/udp_piece.cpp
         test/test.cpp
         test/native_test.cpp
+        test/udp_test.cpp
         udp/circular_buffer.c
         udp/udp-piece.c
         udp/udp-piece-server.c

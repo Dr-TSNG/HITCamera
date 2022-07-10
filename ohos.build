@@ -14,7 +14,7 @@
         "//foundation/multimedia/hit_camera_standard/sa_profile:hit_camera_service_sa_profile",
         "//foundation/multimedia/hit_camera_standard/test:camera_test",
         "//foundation/multimedia/hit_camera_standard/test:camera_native_test",
-        "//foundation/multimedia/hit_camera_standard/udp:3516_receive",
+        "//foundation/multimedia/hit_camera_standard/test:udp_test",
         "//foundation/multimedia/hit_camera_standard/interfaces/kits/js:hitcamerajs"
       ],
       "system_capabilities":[

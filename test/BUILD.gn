@@ -24,6 +24,30 @@ ohos_executable("camera_test") {
     ]
 }
 
+ohos_executable("udp_test") {
+    subsystem_name = "multimedia"
+    part_name = "multimedia_hit_camera_standard"
+    install_enable = true
+
+    sources = [ "udp_test.cpp" ]
+
+    include_dirs = [
+        "//foundation/multimedia/hit_camera_standard/interfaces/kits/native",
+        "//foundation/multimedia/hit_camera_standard/services/include",
+    ]
+
+    deps = [
+        "//utils/native/base:utils",
+        "//foundation/multimedia/hit_camera_standard/interfaces/kits/native:hit_camera_client"
+    ]
+
+    external_deps = [
+        "hiviewdfx_hilog_native:libhilog",
+        "ipc:ipc_core",
+        "samgr_standard:samgr_proxy",
+    ]
+}
+
 ohos_executable("camera_native_test") {
     subsystem_name = "multimedia"
     part_name = "multimedia_hit_camera_standard"
