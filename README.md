@@ -1,39 +1,118 @@
-# OHOS_3.1_hit
+## HITCameraService
 
-#### 介绍
-{**以下是 Gitee 平台说明，您可以替换此简介**
-Gitee 是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用 Gitee 实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+### 编译
 
-#### 软件架构
-软件架构说明
+1. 将仓库文件放入 `foundation/multimedia/hit_camea_standard` 中
 
+2. 修改`productdefine/common/products/rk3568.json`，加入一行
 
-#### 安装教程
+   ```
+   "multimedia:multimedia_hit_camera_standard":{},
+   ```
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+3. 修改 `base/startup/init_lite/services/etc/init.cfg`，在指定位置加入一行
 
-#### 使用说明
+   ```
+   "mkdir /data/misc/cameraserver 0700 cameraserver cameraserver",
+   + "chown hitcameraserver hitcameraserver /dev/video0",
+   ```
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+4. 修改`base/startup/init_lite/services/etc/passwd`，加入一行
 
-#### 参与贡献
+   ```
+   hitcameraserver:x:1048:1048:::/bin/false
+   ```
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+### Native 接口
 
+#### GN 依赖
 
-#### 特技
+```
+include_dirs = [
+    "//foundation/multimedia/hit_camera_standard/interfaces/kits/native",
+    "//foundation/multimedia/hit_camera_standard/services/include",
+]
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+deps = [
+   "//utils/native/base:utils",
+     "//foundation/multimedia/hit_camera_standard/interfaces/kits/native:hit_camera_client"
+]
+
+external_deps = [
+    "hiviewdfx_hilog_native:libhilog",
+    "ipc:ipc_core",
+    "samgr_standard:samgr_proxy",
+]
+```
+
+#### C++ 接口
+
+头文件：`hitcamera_manager.h`
+
+`PictureHandle`：描述了一个存放在内存中的图片，起始地址位于 `buffer`，长度为 `size`
+
+```cpp
+struct PictureHandle {
+    int32_t id;
+    int32_t size;
+    int64_t buffer;
+}
+```
+
+`CameraManager`：操作模块
+
+```cpp
+class CameraManager {
+    static CameraManager* getInstance();
+    std::variant<PictureHandle, int> Capture(uint32_t width, uint32_t height);
+    int BindRemote(int port);
+    std::variant<PictureHandle, int> GetRemote() const;
+    void UnbindRemote();
+    void Release(PictureHandle handle);
+}
+```
+
+`getInstance()`：获取相机实例，成功返回一个 `CameraManager` 实例，失败返回 `nullptr`
+
+`Capture(uint32_t width, uint32_t height)`：以 width × height 的像素拍一张照片，成功返回一个 `PictureHandle`，失败返回一个整形错误码（具体定义在 `hitbase.h` 下的 `Codes` 中）
+
+`BindRemote(int port)`：绑定端口 `port` 监听远程发送的图片，返回一个整形错误码（无错误返回 ERR_OK）
+
+`GetRemote()`：从监听端口远程获取一张照片，成功返回一个 `PictureHandle`，失败返回一个整形错误码
+
+`Release(PictureHandle handle)`：释放一张照片的内存
+
+#### 注意事项
+
+处理完一张照片后，一定要调用 `Release` 释放 `PictureHandle`，否则会造成内存泄露
+
+具体事例参考 `test/test.cpp`、`test/udp_test.cpp`
+
+### JS 接口
+
+#### 接口
+
+```js
+declare namespace hitcamerajs {
+  /*
+   * photo data.
+   */
+  interface PictureHandle {
+    id: number;
+    size: number;
+    buffer: number;
+  }
+  function Capture(width: number, height: number): PictureHandle;
+  function Release(handle: PictureHandle): void;
+}
+```
+
+#### 使用
+
+```js
+import cm from '@ohos.Multimedia.hitcamerajs';
+
+var ph = cm.capture(width, height);
+...
+cm.Release(ph);
+```
