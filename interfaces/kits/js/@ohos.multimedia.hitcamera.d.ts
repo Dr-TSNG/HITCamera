@@ -39,8 +39,8 @@ declare namespace hitcamerajs {
    * @devices
    * @sysCap SystemCapability.Multimedia.hit_camera
    */
-  function Capture(width: number, height: number): PictureHandle;
-  function Release(handle: PictureHandle): void;
+  function capture(width: number, height: number): PictureHandle;
+  function release(handle: PictureHandle): void;
 
 }//namespace hitcamerajs
 

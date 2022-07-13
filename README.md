@@ -102,8 +102,8 @@ declare namespace hitcamerajs {
     size: number;
     buffer: number;
   }
-  function Capture(width: number, height: number): PictureHandle;
-  function Release(handle: PictureHandle): void;
+  function capture(width: number, height: number): PictureHandle;
+  function release(handle: PictureHandle): void;
 }
 ```
 
@@ -114,5 +114,5 @@ import cm from '@ohos.Multimedia.hitcamerajs';
 
 var ph = cm.capture(width, height);
 ...
-cm.Release(ph);
+cm.release(ph);
 ```
