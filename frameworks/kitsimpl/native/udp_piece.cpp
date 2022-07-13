@@ -64,7 +64,7 @@ int UdpPiece::Merge(uint8_t* data, size_t size) {
             // 将帧头出队列
             buffer.PopFront(HEAD_SIZE);
             // 读取分片数据
-            size_t bytesToRead = buffer.Read(recvBuf + PIECE_FIX_SIZE * pIndex, dataLen);
+            size_t bytesToRead = buffer.Read(recvBuf.get() + PIECE_FIX_SIZE * pIndex, dataLen);
             if (bytesToRead != dataLen) {
                 LOGE("There is no enough space, only %{public}zu bytes, but need %{public}zu bytes", bytesToRead, size);
                 return -1;

@@ -48,6 +48,6 @@ private:
     int totalSize = 0;                   // 总数据大小
     int totalPieces = 0;                 // 分片总数量
     int recvLen = 0;                     // 接收数据的长度
-    std::unique_ptr<uint8_t[]> recvBuf;  // 保存接收数据
     CircularBuffer buffer;               // 缓存
+    std::unique_ptr<uint8_t[]> recvBuf;  // 保存接收数据
 };
